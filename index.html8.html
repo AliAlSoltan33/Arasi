@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مطعم آراسي - القائمة</title>
+<meta name="theme-color" content="#3E1F00">
+<meta name="description" content="قائمة مطعم آراسي الشرقي - كربلاء">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root {
+    --clay: #8B4513;
+    --sand: #D2B48C;
+    --cream: #FDF6E3;
+    --dark-brown: #3E1F00;
+    --gold: #C8922A;
+    --warm-red: #8B1A1A;
+    --light-sand: #F5ECD7;
+    --text-dark: #2C1700;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background-color: var(--cream); font-family: 'Amiri', 'Traditional Arabic', 'Arabic Typesetting', serif; font-display: swap; color: var(--text-dark); overflow-x: hidden; }
+
+  /* WELCOME BANNER */
+  .welcome-bar {
+    background: linear-gradient(135deg, var(--gold), #a07020, var(--gold));
+    text-align: center;
+    padding: 12px 20px;
+    font-family: 'Scheherazade New', serif;
+    font-size: 1.3rem;
+    color: var(--dark-brown);
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--dark-brown);
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+  }
+  .header-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(200,146,42,0.08) 0px, rgba(200,146,42,0.08) 1px, transparent 1px, transparent 20px),
+      repeating-linear-gradient(-45deg, rgba(200,146,42,0.08) 0px, rgba(200,146,42,0.08) 1px, transparent 1px, transparent 20px);
+  }
+  .header-inner { position: relative; z-index: 1; padding: 40px 20px 30px; }
+  .arabic-ornament { font-size: 1.6rem; color: var(--gold); display: block; margin-bottom: 8px; letter-spacing: 8px; }
+  .restaurant-name { font-family: 'Scheherazade New', serif; font-size: clamp(2.8rem, 8vw, 5rem); color: var(--sand); font-weight: 700; text-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .restaurant-sub { font-size: 1rem; color: var(--gold); margin-top: 8px; letter-spacing: 2px; }
+  .header-divider { width: 200px; height: 2px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 16px auto 0; }
+
+  /* NAV */
+  nav { background: var(--warm-red); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .nav-scroll { display: flex; overflow-x: auto; scrollbar-width: none; justify-content: center; }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-btn { flex-shrink: 0; background: none; border: none; color: rgba(253,246,227,0.75); font-family: 'Amiri', serif; font-size: 0.95rem; padding: 13px 18px; cursor: pointer; transition: all 0.3s; position: relative; white-space: nowrap; }
+  .nav-btn::after { content: ''; position: absolute; bottom: 0; left: 50%; right: 50%; height: 3px; background: var(--gold); transition: all 0.3s; }
+  .nav-btn:hover, .nav-btn.active { color: var(--cream); }
+  .nav-btn:hover::after, .nav-btn.active::after { left: 8%; right: 8%; }
+
+  /* MAIN */
+  main { max-width: 960px; margin: 0 auto; padding: 36px 16px 60px; }
+
+  /* CATEGORY */
+  .category { margin-bottom: 50px; animation: fadeUp 0.6s ease both; content-visibility: auto; }
+  .category-header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+  .category-line { flex: 1; height: 1px; background: linear-gradient(to left, var(--sand), transparent); }
+  .category-line.right { background: linear-gradient(to right, var(--sand), transparent); }
+  .category-title-wrap { text-align: center; }
+  .category-icon { font-size: 1.6rem; display: block; margin-bottom: 2px; }
+  .category-title { font-family: 'Scheherazade New', serif; font-size: 1.7rem; color: var(--clay); font-weight: 700; }
+
+  /* NOTE */
+  .cat-note { text-align: center; font-size: 0.88rem; color: var(--warm-red); margin-bottom: 16px; background: rgba(139,26,26,0.07); padding: 6px 14px; border-radius: 20px; display: inline-block; width: 100%; }
+
+  /* GRID */
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .menu-grid.wide { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+  /* CARD */
+  .menu-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(62,31,0,0.09); transition: transform 0.3s, box-shadow 0.3s; border: 1px solid rgba(210,180,140,0.3); }
+  .menu-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(62,31,0,0.16); }
+  .card-body { padding: 14px 16px; }
+  .card-name { font-family: 'Scheherazade New', serif; font-size: 1.2rem; color: var(--dark-brown); font-weight: 700; margin-bottom: 6px; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .card-price { font-family: 'Scheherazade New', serif; font-size: 1.15rem; color: var(--clay); font-weight: 700; }
+  .card-price span { font-size: 0.75rem; color: #9a7a5a; }
+
+  /* PRICE VARIANTS */
+  .price-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  .price-tag { background: var(--light-sand); border-radius: 20px; padding: 3px 12px; font-size: 0.88rem; color: var(--clay); font-weight: 700; }
+  .price-tag .lbl { font-size: 0.75rem; color: #7a5a3a; margin-left: 4px; }
+
+  /* DAILY TABLE */
+  .daily-section { background: white; border-radius: 14px; border: 1px solid rgba(210,180,140,0.4); overflow: hidden; box-shadow: 0 2px 12px rgba(62,31,0,0.08); }
+  .day-block { border-bottom: 1px solid rgba(210,180,140,0.3); padding: 14px 18px; }
+  .day-block:last-child { border-bottom: none; }
+  .day-name { font-family: 'Amiri', serif; font-size: 1.15rem; color: var(--warm-red); font-weight: 700; margin-bottom: 8px; }
+  .day-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px dashed rgba(210,180,140,0.4); }
+  .day-item:last-child { border-bottom: none; }
+  .day-item-name { font-size: 1.05rem; color: var(--text-dark); font-family: 'Amiri', serif; }
+  .day-item-prices { display: flex; gap: 8px; }
+  .day-price { font-size: 0.88rem; color: var(--clay); font-weight: 700; background: var(--light-sand); padding: 2px 10px; border-radius: 20px; font-family: 'Amiri', serif; }
+
+  /* SPECIAL TABLE */
+  .special-table { background: white; border-radius: 14px; overflow: hidden; border: 1px solid rgba(210,180,140,0.3); }
+  .special-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px dashed rgba(210,180,140,0.3); }
+  .special-row:last-child { border-bottom: none; }
+  .special-name { font-size: 1.05rem; color: var(--text-dark); font-family: 'Amiri', serif; }
+  .special-price { font-family: 'Amiri', serif; font-size: 1.1rem; color: var(--clay); font-weight: 700; }
+
+  /* FOOTER */
+  footer { background: var(--dark-brown); color: var(--sand); text-align: center; padding: 30px 20px; line-height: 2; }
+  footer .gold { color: var(--gold); font-size: 1.4rem; font-family: 'Scheherazade New', serif; }
+  footer a { color: var(--sand); text-decoration: none; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .category:nth-child(1){animation-delay:.05s} .category:nth-child(2){animation-delay:.1s}
+  .category:nth-child(3){animation-delay:.15s} .category:nth-child(4){animation-delay:.2s}
+  .category:nth-child(5){animation-delay:.25s} .category:nth-child(6){animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<div class="welcome-bar">❖ أهلاً بكم في عالم آراسي ❖</div>
+
+<header>
+  <div class="header-pattern"></div>
+  <div class="header-inner">
+    <span class="arabic-ornament">❖ ✦ ❖</span>
+    <h1 class="restaurant-name">مطعم آراسي</h1>
+    <p class="restaurant-sub">الشرقي · أصالة الطعم والضيافة</p>
+    <div class="header-divider"></div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-scroll">
+    <button class="nav-btn active" onclick="goTo('daily')">📅 طبق اليوم</button>
+    <button class="nav-btn" onclick="goTo('sharqi')">🍲 الشرقي</button>
+    <button class="nav-btn" onclick="goTo('mashawi')">🔥 المشاوي</button>
+    <button class="nav-btn" onclick="goTo('moqabelat')">🥗 المقبلات</button>
+    <button class="nav-btn" onclick="goTo('special')">👑 الطلبات الخاصة</button>
+    <button class="nav-btn" onclick="goTo('juices')">🥤 العصائر</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- طبق اليوم -->
+  <section class="category" id="daily">
+    <div class="category-header">
+      <div class="category-line"></div>
+      <div class="category-title-wrap">
+        <span class="category-icon">📅</span>
+        <h2 class="category-title">طبق اليوم</h2>
+      </div>
+      <div class="category-line right"></div>
+    </div>
+    <div class="daily-section">
+
+      <div class="day-block">
+        <div class="day-name">الجمعة</div>
+        <div class="day-item"><span class="day-item-name">فسنجون</span><div class="day-item-prices"><span class="day-price">٩,٠٠٠</span></div></div>
+        <div class="day-item"><span class="day-item-name">صينية أراسي البحرية</span><div class="day-item-prices"><span class="day-price">٣٥,٠٠٠</span></div></div>
+        <div class="day-item"><span class="day-item-name">كبسة دجاج</span><div class="day-item-prices"><span class="day-price">١٧,٠٠٠</span></div></div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">السبت والخميس</div>
+        <div class="day-item"><span class="day-item-name">كبسة طير الحذاف لشخصين</span><div class="day-item-prices"><span class="day-price">٣٠,٠٠٠</span></div></div>
+        <div class="day-item"><span class="day-item-name">كبسة طير الحذاف لشخص</span><div class="day-item-prices"><span class="day-price">١٥,٠٠٠</span></div></div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">الأحد</div>
+        <div class="day-item"><span class="day-item-name">تمن كم</span><div class="day-item-prices"><span class="day-price">٧,٠٠٠</span><span class="day-price">١٣,٠٠٠ &nbsp;بلم</span></div></div>
+        <div class="day-item"><span class="day-item-name">كبسة لحم</span><div class="day-item-prices"><span class="day-price">٢١,٠٠٠</span></div></div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">الاثنين</div>
+        <div class="day-item"><span class="day-item-name">فسنجون</span><div class="day-item-prices"><span class="day-price">٨,٠٠٠</span></div></div>
+        <div class="day-item"><span class="day-item-name">كبسة بطلية</span><div class="day-item-prices"><span class="day-price">٢٢,٠٠٠</span></div></div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">الثلاثاء</div>
+        <div class="day-item"><span class="day-item-name">تمن برياني دجاج</span><div class="day-item-prices"><span class="day-price">٦,٠٠٠</span><span class="day-price">١١,٠٠٠ &nbsp;بلم</span></div></div>
+        <div class="day-item"><span class="day-item-name">عالونة لحم</span><div class="day-item-prices"><span class="day-price">٢١,٠٠٠</span></div></div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">الأربعاء</div>
+        <div class="day-item"><span class="day-item-name">سمك مقلي على التمن</span><div class="day-item-prices"><span class="day-price">١٢,٠٠٠</span></div></div>
+        <div class="day-item"><span class="day-item-name">حرش على تمن الماش</span><div class="day-item-prices"><span class="day-price">١٣,٠٠٠</span></div></div>
+        <div class="day-item"><span class="day-item-name">صيد الكدر</span><div class="day-item-prices"><span class="day-price">٩,٠٠٠</span></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- الشرقي -->
+  <section class="category" id="sharqi">
+    <div class="category-header">
+      <div class="category-line"></div>
+      <div class="category-title-wrap">
+        <span class="category-icon">🍲</span>
+        <h2 class="category-title">الشرقي</h2>
+      </div>
+      <div class="category-line right"></div>
+    </div>
+    <p class="cat-note">⏰ هذا القسم متوفر وقت الغداء فقط</p>
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">قوزي</div>
+          <div class="price-row">
+            <span class="price-tag">٢٣,٠٠٠</span>
+            <span class="price-tag">١٦,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">دجاج مشوي على الفحم مع تمن</div>
+          <div class="price-row"><span class="price-tag">٢٠,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">نص دجاج مشوي على الفحم مع تمن</div>
+          <div class="price-row"><span class="price-tag">١٢,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">دجاج شوي</div>
+          <div class="price-row">
+            <span class="price-tag">١٨,٠٠٠</span>
+            <span class="price-tag">١٠,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">تمن برياني لحم</div>
+          <div class="price-row">
+            <span class="price-tag">٨,٠٠٠</span>
+            <span class="price-tag">١٥,٠٠٠ <span class="lbl">بلم</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">تمن باقلاء</div>
+          <div class="price-row">
+            <span class="price-tag">٦,٠٠٠</span>
+            <span class="price-tag">١١,٠٠٠ <span class="lbl">بلم</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">تشريب لحم</div>
+          <div class="price-row"><span class="price-tag">١٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">تمن + مرق</div>
+          <div class="price-row"><span class="price-tag">٦,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">جدر دولمة</div>
+          <div class="price-row"><span class="price-tag">٢٠,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">ملفوف مع التمن</div>
+          <div class="price-row"><span class="price-tag">١٤,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">مقلوبة لحم</div>
+          <div class="price-row"><span class="price-tag">٢٠,٠٠٠</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- المشاوي -->
+  <section class="category" id="mashawi">
+    <div class="category-header">
+      <div class="category-line"></div>
+      <div class="category-title-wrap">
+        <span class="category-icon">🔥</span>
+        <h2 class="category-title">المشاوي</h2>
+      </div>
+      <div class="category-line right"></div>
+    </div>
+    <p class="cat-note">⏰ هذا القسم متوفر وقت العشاء فقط</p>
+    <div class="menu-grid wide">
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">كباب لحم</div>
+          <div class="price-row">
+            <span class="price-tag">١٨,٠٠٠</span>
+            <span class="price-tag">٩,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">كباب دجاج</div>
+          <div class="price-row">
+            <span class="price-tag">١٥,٠٠٠</span>
+            <span class="price-tag">٨,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">تكه لحم</div>
+          <div class="price-row">
+            <span class="price-tag">١٨,٠٠٠</span>
+            <span class="price-tag">٩,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">تكه دجاج</div>
+          <div class="price-row">
+            <span class="price-tag">١٥,٠٠٠</span>
+            <span class="price-tag">٨,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">مطلاك</div>
+          <div class="price-row">
+            <span class="price-tag">١٨,٠٠٠</span>
+            <span class="price-tag">٩,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">قلب</div>
+          <div class="price-row">
+            <span class="price-tag">١٨,٠٠٠</span>
+            <span class="price-tag">٩,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">جلاوي</div>
+          <div class="price-row">
+            <span class="price-tag">١٨,٠٠٠</span>
+            <span class="price-tag">٩,٠٠٠ <span class="lbl">نص</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">خلوع ٥ قطع</div>
+          <div class="price-row"><span class="price-tag">٢٢,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">بطينة مشوية</div>
+          <div class="price-row"><span class="price-tag">٢,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">صينية أراسي</div>
+          <div class="price-row"><span class="price-tag">٤,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">قطع دجاج مشوية مع التمن والفنر</div>
+          <div class="price-row"><span class="price-tag">١٠,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">قطع دجاج مشوية</div>
+          <div class="price-row"><span class="price-tag">٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">كية حلب</div>
+          <div class="price-row"><span class="price-tag">٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">كية بطاطا لحم</div>
+          <div class="price-row"><span class="price-tag">٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">بورك لحم</div>
+          <div class="price-row"><span class="price-tag">٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">سمبوسة لحم</div>
+          <div class="price-row"><span class="price-tag">٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">كباب عروك</div>
+          <div class="price-row"><span class="price-tag">٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">مشكل لشخص</div>
+          <div class="price-row"><span class="price-tag">٨,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">مشكل لشخصين</div>
+          <div class="price-row"><span class="price-tag">١٥,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">جدر دولمة</div>
+          <div class="price-row"><span class="price-tag">٢٢,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">وجبة أطفال</div>
+          <div class="price-row"><span class="price-tag">٥,٠٠٠</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">فنكر</div>
+          <div class="price-row"><span class="price-tag">٢,٠٠٠</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- المقبلات -->
+  <section class="category" id="moqabelat">
+    <div class="category-header">
+      <div class="category-line"></div>
+      <div class="category-title-wrap">
+        <span class="category-icon">🥗</span>
+        <h2 class="category-title">المقبلات</h2>
+      </div>
+      <div class="category-line right"></div>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card"><div class="card-body"><div class="card-name">حمص بطحينة</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">جاجيك</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">بيذنجانية</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">متبل</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">رمانية</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">زيتونية</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">روسية</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">فتوش</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">فته</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">تبوله</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">مسبحة</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+      <div class="menu-card"><div class="card-body"><div class="card-name">شوندر سبكي</div><div class="price-row"><span class="price-tag">٣,٠٠٠</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- الطلبات الخاصة -->
+  <section class="category" id="special">
+    <div class="category-header">
+      <div class="category-line"></div>
+      <div class="category-title-wrap">
+        <span class="category-icon">👑</span>
+        <h2 class="category-title">الطلبات الخاصة</h2>
+      </div>
+      <div class="category-line right"></div>
+    </div>
+    <div class="special-table">
+      <div class="special-row"><span class="special-name">خروف كامل مشوي أو هبيط</span><span class="special-price">٥٥٠,٠٠٠</span></div>
+      <div class="special-row"><span class="special-name">نص خروف مشوي أو هبيط</span><span class="special-price">٣٥٠,٠٠٠</span></div>
+      <div class="special-row"><span class="special-name">غزال مشوي</span><span class="special-price">٧٠٠,٠٠٠</span></div>
+      <div class="special-row"><span class="special-name">فسيفس كامل</span><span class="special-price">١٤٠,٠٠٠</span></div>
+    </div>
+  </section>
+
+  <!-- العصائر -->
+  <section class="category" id="juices">
+    <div class="category-header">
+      <div class="category-line"></div>
+      <div class="category-title-wrap">
+        <span class="category-icon">🥤</span>
+        <h2 class="category-title">العصائر</h2>
+      </div>
+      <div class="category-line right"></div>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">بطل صغير</div>
+          <div class="price-row"><span class="price-tag">٢,٠٠٠</span></div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">بطل لتر</div>
+          <div class="price-row"><span class="price-tag">٤,٠٠٠</span></div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="card-body">
+          <div class="card-name">دولكة</div>
+          <div class="price-row"><span class="price-tag">٦,٠٠٠</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="gold">مطعم آراسي الشرقي</p>
+  <p>📍 كربلاء / حي الحسين - شارع المصلحة</p>
+  <p style="font-size:0.9rem; opacity:0.8;">مقابل مدرسة الشهيد أبو المعالي الابتدائية</p>
+  <p style="margin-top:10px;">📞 <a href="tel:07850008508">٠٧٨٥٠٠٠٨٥٠٨</a> &nbsp;|&nbsp; <a href="tel:07750008508">٠٧٧٥٠٠٠٨٥٠٨</a></p>
+  <p style="margin-top:14px; font-size:0.8rem; opacity:0.5;">جميع الأسعار بالدينار العراقي</p>
+</footer>
+
+<script>
+  function goTo(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+  const sections = ['daily','sharqi','mashawi','moqabelat','special','juices'];
+  const btns = document.querySelectorAll('.nav-btn');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 130) cur = id;
+    });
+    btns.forEach((b, i) => b.classList.toggle('active', i === sections.indexOf(cur)));
+  });
+</script>
+</body>
+</html>
